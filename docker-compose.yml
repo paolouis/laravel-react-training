@@ -1,0 +1,63 @@
+version: "3"
+services:
+    web:
+        container_name: reactapp_local
+        build:
+            context: .
+            dockerfile: Docker/Dockerfile
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        ports:
+            - "${APP_PORT:-8002}:8000"
+            - "${VITE_PORT:-5174}:${VITE_PORT:-5174}"
+        volumes:
+            - "./:/app"
+        environment:
+            DB_HOST: "${DB_HOST:-localhost}"
+            DB_PORT: "${DB_PORT:-3306}"
+            DB_USERNAME: "${DB_USERNAME:-root}"
+            DB_DATABASE: "${DB_DATABASE}"
+            DB_PASSWORD: "${DB_PASSWORD}"
+            LARAVEL_SKIP_DATABASE: "${LARAVEL_SKIP_DATABASE:-false}"
+        networks:
+            - reactapp
+        depends_on:
+            - mysql
+    mysql:
+        container_name: reactapp_mysql
+        image: "mysql:5.7.42"
+        restart: unless-stopped
+        ports:
+            - "3308:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+            MYSQL_USER: "${DB_USERNAME:-root}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+        volumes:
+            - "mysql-data:/var/lib/mysql"
+        networks:
+            - reactapp
+    phpmyadmin:
+        container_name: reactapp_phpmyadmin
+        image: phpmyadmin
+        restart: always
+        ports:
+            - 8082:80
+        environment:
+            PMA_ARBITRARY: 1
+            PMA_HOST: "${DB_HOST:-localhost}"
+            PMA_USER: "${DB_USERNAME:-root}"
+            PMA_PASSWORD: "${DB_PASSWORD}"
+        depends_on:
+            - mysql
+        networks:
+            - reactapp
+
+volumes:
+    mysql-data:
+
+networks:
+    reactapp:
+        driver: bridge
