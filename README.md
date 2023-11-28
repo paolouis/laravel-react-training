@@ -72,8 +72,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ```
 
-docker exec expense_app_local bash
-
 #### Docker reactapp_local Terminal
 
 ```
@@ -82,6 +80,7 @@ docker exec expense_app_local bash
 > php artisan view:cache
 > php artisan migrate
 > php artisan db:seed (only if empty user table)
+
 ```
 
 ### Open another terminal
@@ -89,4 +88,5 @@ docker exec expense_app_local bash
 ```
 > npm run dev
 > php artisan serve
+
 ```
