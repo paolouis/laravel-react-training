@@ -53,7 +53,7 @@ function Expense() {
                             <th>ID</th>
                             <th>Description</th>
                             <th>Amount</th>
-                            <th>Expense Date</th>
+                            <th>Created at</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -71,8 +71,8 @@ function Expense() {
                         {expenses.map((expense) => (
                             <tr key={expense.id}>
                                 <td>{expense.id}</td>
-                                <td>{expense.name}</td>
-                                <td>{expense.email}</td>
+                                <td>{expense.description}</td>
+                                <td>{expense.amount}</td>
                                 <td>{expense.created_at}</td>
                                 <td>{expense.status}</td>
                                 <td>

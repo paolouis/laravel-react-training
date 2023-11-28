@@ -1,7 +1,7 @@
 version: "3"
 services:
     web:
-        container_name: reactapp_local
+        container_name: expense_app_local
         build:
             context: .
             dockerfile: Docker/Dockerfile
@@ -20,11 +20,11 @@ services:
             DB_PASSWORD: "${DB_PASSWORD}"
             LARAVEL_SKIP_DATABASE: "${LARAVEL_SKIP_DATABASE:-false}"
         networks:
-            - reactapp
+            - expense_app
         depends_on:
             - mysql
     mysql:
-        container_name: reactapp_mysql
+        container_name: expense_app_mysql
         image: "mysql:5.7.42"
         restart: unless-stopped
         ports:
@@ -38,9 +38,11 @@ services:
         volumes:
             - "mysql-data:/var/lib/mysql"
         networks:
-            - reactapp
+            - expense_app
+        env_file:
+            - .env
     phpmyadmin:
-        container_name: reactapp_phpmyadmin
+        container_name: expense_app_phpmyadmin
         image: phpmyadmin
         restart: always
         ports:
@@ -48,16 +50,17 @@ services:
         environment:
             PMA_ARBITRARY: 1
             PMA_HOST: "${DB_HOST:-localhost}"
+            PMA_PORT: "${DB_PORT}"
             PMA_USER: "${DB_USERNAME:-root}"
             PMA_PASSWORD: "${DB_PASSWORD}"
         depends_on:
             - mysql
         networks:
-            - reactapp
+            - expense_app
 
 volumes:
     mysql-data:
 
 networks:
-    reactapp:
+    expense_app:
         driver: bridge

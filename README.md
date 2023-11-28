@@ -72,6 +72,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ```
 
+docker exec expense_app_local bash
+
 #### Docker reactapp_local Terminal
 
 ```

@@ -12,14 +12,13 @@ function ExpenseForm() {
         id: null,
         description: "",
         amount: 0,
-        // Add other fields related to expenses
     });
 
     useEffect(() => {
         if (id) {
             setLoading(true);
             axiosClient
-                .get(`/expense/${id}`) // Change the endpoint to match your expense API
+                .get(`/expense/${id}`)
                 .then(({ data }) => {
                     setLoading(false);
                     setExpense(data);
@@ -35,7 +34,7 @@ function ExpenseForm() {
         ev.preventDefault();
         if (expense.id) {
             axiosClient
-                .put(`/expense/${expense.id}`, expense) // Change the endpoint to match your expense API
+                .put(`/expense/${expense.id}`, expense)
                 .then(() => {
                     navigate("/expense");
                 })
@@ -47,7 +46,7 @@ function ExpenseForm() {
                 });
         } else {
             axiosClient
-                .post(`/expense`, expense) // Change the endpoint to match your expense API
+                .post(`/expense`, expense)
                 .then(() => {
                     navigate("/expense");
                 })
@@ -83,6 +82,7 @@ function ExpenseForm() {
                                 })
                             }
                             placeholder="Description"
+                            type="string"
                         />
                         <input
                             value={expense.amount}
@@ -95,7 +95,7 @@ function ExpenseForm() {
                             placeholder="Amount"
                             type="number"
                         />
-                        <input
+                        {/* <input
                             value={expense.expense_date}
                             onChange={(ev) =>
                                 setExpense({
@@ -105,7 +105,7 @@ function ExpenseForm() {
                             }
                             placeholder="Date"
                             type="date"
-                        />
+                        /> */}
 
                         <button className="btn btn-save">Submit</button>
                     </form>
